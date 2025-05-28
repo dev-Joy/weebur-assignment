@@ -13,7 +13,7 @@ export interface ProductsParams {
 
 export interface AddProductRequestBody {
   title: string;
-  description: string;
+  description?: string;
   price: number;
   discountPercentage?: number;
   brand: 'Apple' | 'Samsung' | 'Weebur';

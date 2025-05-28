@@ -13,23 +13,30 @@ pnpm dev
 ### 폴더 구조 (App Router)
 
 ```
-app/
-├── products/
-│ ├── page.tsx
-│ ├── new/
-│   └── page.tsx
-│ └── components/
-│   ├── ProductCard.tsx
-│   └── ProductForm.tsx
-│   ├── ProductGrid.tsx
-│   ├── ProductList.tsx
-├── lib/
-│ └── api.ts
-│ └── registry.tsx
-├── types/
-│ └── product.ts # 타입 정의
-├── ui/
-│ └── button.tsx
+app
+├─ favicon.ico
+├─ globals.css
+├─ layout.tsx
+├─ lib
+│  ├─ api.ts
+│  └─ registry.tsx
+├─ not-found.tsx
+├─ page.tsx
+├─ /products
+│  ├─ components
+│  │  ├─ ProductCard.tsx
+│  │  ├─ ProductForm.tsx
+│  │  ├─ ProductGrid.tsx
+│  │  └─ ProductList.tsx
+│  ├─ /new
+│  │  └─ page.tsx
+│  └─ page.tsx
+├─ schemas
+│  └─ productSchema.ts
+├─ types
+│  └─ product.ts
+└─ ui
+   └─ button.tsx
 ```
 
 ## 구현 페이지
