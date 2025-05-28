@@ -11,7 +11,7 @@ pnpm dev
 ```
 
 ## 구현 페이지
-
+```
 app/
 ├── products/
 │ ├── page.tsx # 상품 리스트
@@ -27,6 +27,7 @@ app/
 │ └── product.ts # 타입 정의
 ├── ui/
 │ └── product.ts
+```
 
 ## 1. 상품 리스트 페이지 (`/products`)
 
