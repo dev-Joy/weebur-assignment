@@ -10,35 +10,43 @@ pnpm i
 pnpm dev
 ```
 
-## 구현 페이지
+### 폴더 구조 (App Router)
+
 ```
 app/
 ├── products/
-│ ├── page.tsx # 상품 리스트
-│ ├── new/page.tsx # 상품 생성 폼
+│ ├── page.tsx
+│ ├── new/
+│   └── page.tsx
 │ └── components/
 │   ├── ProductCard.tsx
-│   ├── ProductList.tsx
 │   └── ProductForm.tsx
+│   ├── ProductGrid.tsx
+│   ├── ProductList.tsx
 ├── lib/
-│ └── api.ts # fetch 유틸
-│ └── registry.tsx # style components
+│ └── api.ts
+│ └── registry.tsx
 ├── types/
 │ └── product.ts # 타입 정의
 ├── ui/
-│ └── product.ts
+│ └── button.tsx
 ```
 
-## 1. 상품 리스트 페이지 (`/products`)
+## 구현 페이지
 
-## 2. 상품 생성 페이지 (`/products/new`)
+### 1. 상품 리스트 페이지
 
-가장 널리 사용되는 React 폼 라이브러리. zod과 함께 사용하여 강력한 폼 검증 가능
+`/products`
+
+### 2. 상품 생성 페이지
+
+`/products/new`
 
 - [React Hook Form](https://www.react-hook-form.com/)
 - [zod](https://zod.dev/)
 
-## 스타일
+## 스타일링
 
+- [Tailwindcss](https://tailwindcss.com/)
 - [Styled Components](https://styled-components.com/)
 - [How to NextJS Styled Components](https://nextjs.org/docs/app/guides/css-in-js#styled-components)
