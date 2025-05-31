@@ -1,5 +1,7 @@
 import { z } from 'zod';
-import { BRANDS } from '../types/product';
+import { Brand, BRANDS } from '../types/product';
+
+const BRANDS_TUPLE = BRANDS as [Brand, ...Brand[]];
 
 export const productSchema = z.object({
   title: z
@@ -21,7 +23,7 @@ export const productSchema = z.object({
     .gte(0, '0 보다 큰 숫자를 입력해주세요.')
     .lt(100, '100이내로 입력해야 합니다.')
     .optional(),
-  brand: z.enum(BRANDS, {
+  brand: z.enum(BRANDS_TUPLE, {
     message: '브랜드 선택은 필수입니다.',
   }),
 });
