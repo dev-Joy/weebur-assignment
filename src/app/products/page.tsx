@@ -1,62 +1,34 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import { getProducts } from '../lib/api';
-import ProductGrid from './components/ProductGrid';
-import ProductList from './components/ProductList';
-import { Product } from '../types/product';
 import Link from 'next/link';
-import Button from '../ui/button';
+import ProductGridView from './components/ProductGridView';
+import ProductListView from './components/ProductListView';
+import { cookies } from 'next/headers';
 
-type ViewType = 'grid' | 'list';
+type ViewType = 'list' | 'grid';
 
-const VIEW_KEY = 'viewType';
-const TTL_KEY = 'viewTypeTTL'; // TTL in ISO string format
+export default async function ProductsPage() {
+  const cookieStore = await cookies();
+  const viewType = cookieStore.get('view_type')?.value as ViewType;
 
-export default function ProductsPage() {
-  const [viewType, setViewType] = useState<ViewType | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
+  const products = await getProducts({ limit: 20 });
 
-  useEffect(() => {
-    const now = new Date();
-    const savedView = localStorage.getItem(VIEW_KEY);
-    const ttl = localStorage.getItem(TTL_KEY);
-
-    const isExpired = ttl ? new Date(ttl) < now : true;
-
-    if (!savedView || isExpired) {
-      const newView: ViewType = Math.random() < 0.5 ? 'grid' : 'list';
-      const newTTL = new Date();
-      newTTL.setHours(newTTL.getHours() + 24);
-
-      localStorage.setItem(VIEW_KEY, newView);
-      localStorage.setItem(TTL_KEY, newTTL.toISOString());
-
-      setViewType(newView);
-    } else {
-      setViewType(savedView as ViewType);
-    }
-  }, []);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const data = await getProducts(20);
-      setProducts(data);
-    };
-    fetchProducts();
-  }, []);
-
-  if (!viewType || products.length === 0) return <p>Loading...</p>;
+  if (!viewType) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <main>
-      <Button variant='primary'>
-        <Link href='/products/new'>Add Product</Link>
-      </Button>
+      <Link
+        href='/products/new'
+        className='inline-block px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition'
+      >
+        Add Product
+      </Link>
+
       {viewType === 'grid' ? (
-        <ProductGrid products={products} />
+        <ProductGridView products={products} />
       ) : (
-        <ProductList products={products} />
+        <ProductListView products={products} />
       )}
     </main>
   );

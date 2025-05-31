@@ -1,12 +1,9 @@
 import { Product } from '@/app/types/product';
 import ProductCard from './ProductCard';
 
-interface Props {
-  products: Product[];
-}
-export default function ProductList({ products }: Props) {
+export default function ProductListView({ products }: { products: Product[] }) {
   return (
-    <section className='flex'>
+    <section className='flex flex-col gap-2'>
       {products.map((product: Product) => (
         <ProductCard
           key={product.id}
