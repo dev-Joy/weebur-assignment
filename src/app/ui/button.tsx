@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 interface ButtonProps {
@@ -21,18 +22,23 @@ const StyledButton = styled.button<{
   transition: background-color 0.3s ease;
 
   background-color: ${({ variant }) =>
-    variant === 'primary' ? '#0070f3' : '#e2e8f0'};
-  color: ${({ variant }) => (variant === 'primary' ? '#fff' : '#333')};
+    variant === 'primary' ? 'var(--color-primary)' : 'var(--color-secondary)'};
+  color: ${({ variant }) =>
+    variant === 'primary'
+      ? 'var(--button-text-primary)'
+      : 'var(--button-text-secondary)'};
 
   &:hover {
     background-color: ${({ variant }) =>
-      variant === 'primary' ? '#005bb5' : '#cbd5e1'};
+      variant === 'primary'
+        ? 'var(--button-hover-primary)'
+        : '--button-hover-secondary'};
   }
 
   &:disabled {
     cursor: not-allowed;
-    background-color: #94a3b8;
-    color: #f1f5f9;
+    background-color: var(--button-disabled-bg);
+    color: var(--button-disabled-text);
   }
 `;
 

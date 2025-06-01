@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function AddProductPage() {
   return (
     <main className='flex flex-col items-center'>
-      <h1 className='text-2xl font-bold text-blue-800 my-5'>상품 추가하기</h1>
+      <h1 className='text-2xl font-extrabold text-brand my-5'>상품 추가하기</h1>
       <ProductForm />
     </main>
   );

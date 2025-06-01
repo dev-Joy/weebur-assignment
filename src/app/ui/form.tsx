@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
-  max-width: 480px;
+  max-width: 600px;
   margin: 2rem auto;
   padding: 1rem;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
@@ -27,21 +27,29 @@ export const FormGrid = styled.div`
 
 export const FormLabel = styled.label`
   font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  margin-bottom: 8px;
+  color: rgb(32, 39, 49);
 `;
 
 export const FormRequired = styled.span`
-  font-weight: bold;
-  font-size: 1rem;
+  margin-left: 2px;
+  line-height: 1rem;
   color: rgb(65, 117, 245);
 `;
 
-export const FormInput = styled.input`
+export const FormInput = styled.input<{ $hasError?: boolean }>`
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid ${({ $hasError }) => ($hasError ? '#e00' : '#ccc')};
   border-radius: 6px;
+
   &:focus {
-    border-color: #0070f3;
-    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+    border-color: ${({ $hasError }) => ($hasError ? '#e00' : '#0070f3')};
+    box-shadow: ${({ $hasError }) =>
+      $hasError
+        ? '0 0 0 2px rgba(255, 0, 0, 0.2)'
+        : '0 0 0 2px rgba(0, 112, 243, 0.2)'};
     outline: none;
   }
 `;
