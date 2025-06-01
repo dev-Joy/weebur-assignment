@@ -23,6 +23,7 @@ export default function ProductForm() {
     formState: { errors },
   } = useForm<ProductType>({
     resolver: zodResolver(productSchema),
+    shouldFocusError: false,
   });
 
   const title = useWatch({ control, name: 'title' });
@@ -104,6 +105,7 @@ export default function ProductForm() {
           control={control}
           render={({ field }) => (
             <Input
+              id='price'
               label='가격'
               required
               type='number'
@@ -121,6 +123,7 @@ export default function ProductForm() {
           control={control}
           render={({ field }) => (
             <Input
+              id='discountPercentage'
               label='할인율'
               type='number'
               placeholder='0'

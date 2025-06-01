@@ -30,6 +30,7 @@ interface TextInputProps extends BaseProps {
 interface NumberInputProps extends BaseProps {
   type: 'number';
   value: number | undefined;
+  id: string;
   unit?: string;
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -39,6 +40,8 @@ type Props = TextInputProps | NumberInputProps;
 
 export default function Input(props: Props) {
   const { label, required, error, register, type } = props;
+
+  const id = register?.name ?? ('id' in props ? props.id : undefined);
 
   const allowOnlyNumberKeys = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const isNumberKey = /^[0-9]$/.test(e.key);
@@ -53,6 +56,8 @@ export default function Input(props: Props) {
       <UnitWrapper>
         <FormInput
           {...register}
+          id={id}
+          $hasError={!!error}
           type='text'
           value={props.value?.toLocaleString() ?? ''}
           placeholder={props.placeholder}
@@ -65,6 +70,8 @@ export default function Input(props: Props) {
       <>
         <FormInput
           {...register}
+          id={id}
+          $hasError={!!error}
           maxLength={props.maxLength}
         />
         {props.maxLength && (
@@ -77,7 +84,7 @@ export default function Input(props: Props) {
 
   return (
     <FormGroup>
-      <FormLabel>
+      <FormLabel htmlFor={id}>
         {label} {required && <FormRequired>[필수]</FormRequired>}
       </FormLabel>
       {inputElement}

@@ -25,10 +25,13 @@ export default function Select({
 }: Props) {
   return (
     <FormGroup>
-      <FormLabel>
+      <FormLabel htmlFor={register.name}>
         {label} {required && <FormRequired>[필수]</FormRequired>}
       </FormLabel>
-      <FormSelect {...register}>
+      <FormSelect
+        {...register}
+        id={register.name}
+      >
         <option value=''>선택하세요</option>
         {options.map((opt) => (
           <option

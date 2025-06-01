@@ -20,7 +20,7 @@ export const productSchema = z.object({
     .number({
       invalid_type_error: '숫자를 입력해 주세요.',
     })
-    .gte(0, '0 보다 큰 숫자를 입력해주세요.')
+    .gte(0, '0 이상 큰 숫자를 입력해주세요.')
     .lt(100, '100이내로 입력해야 합니다.')
     .optional(),
   brand: z.enum(BRANDS_TUPLE, {
