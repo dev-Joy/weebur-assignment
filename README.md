@@ -141,9 +141,9 @@ https://localhost:3000/products
 3. 값이 잘 넘어가는지 확인
    ![상품추가_입력](readme_picture/상품추가_입력.png)
 
-   **네트워크**
-   ![addProduct](readme_picture/addProduct.png)
-   ![Response](readme_picture/Response.png)
+### 네트워크
+![addProduct](readme_picture/addProduct.png)  
+![Response](readme_picture/Response.png)
 
 ## 개발 중 고려 사항 및 이슈
 
