@@ -136,7 +136,7 @@ https://localhost:3000/products
   handleInputChange(onChange)에서 submit할 데이터의 포맷을, useWatch를 사용해 input value를 변환
 
 3. 값이 잘 넘어가는지 확인
-   ![Response](/weebur-assignment/readme_picture/Response.png)
+   ![Response](/readme_picture/Response.png)
 
 ## 개발 중 고려 사항 및 이슈
 
