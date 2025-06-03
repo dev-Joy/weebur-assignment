@@ -2,13 +2,13 @@
 
 프론트엔드 개발자의 문제 해결 능력, 컴포넌트 설계 능력, 코드 품질, UI 구현, 사용자 경험 등의 역량을 종합적으로 확인하기 위한 과제입니다.
 
-**구현기간**: 2025.05.28 ~ 2025.06.02
+**구현기간**: 2025.05.28 ~ 2025.06.03
 
 ## 개발 설계 방향
 
 | 항목                                  | 선택 이유                                                   |
 | ------------------------------------- | ----------------------------------------------------------- |
-| **App Router 기반 폴더 구조**         | 기능별 분리와 명확한 라우팅 관리를 위해                     |
+| **App Router 기반 폴더 구조**         | 기능별 분리와 명확한 라우팅 관리                            |
 | **React Hook Form + Zod**             | 폼 검증과 UI 분리를 동시에 고려한 효율적인 선택             |
 | **Tailwind + Styled Components 병행** | 유틸 기반의 빠른 스타일링과 컴포넌트 단위 커스터마이징 병행 |
 | **Middleware에서 cookie 제어**        | View 모드 유지 문제 해결 및 사용자 경험 향상                |
@@ -94,16 +94,16 @@ https://localhost:3000/products
 
 ### 기능 설명
 
-- `/products` 페이지에 최초 진입한 사용자에게 50% 확률로 'list' 또는 'grid' 뷰 방식을 랜덤 지정합니다.
-- 사용자는 지정된 뷰 방식만을 볼 수 있으며, 이후 24시간 동안 동일한 방식이 유지됩니다.
-- 24시간이 지나면 쿠키가 만료되며, 다시 진입 시 새로운 뷰 방식이 랜덤으로 지정됩니다
+- `/products` 페이지에 최초 진입한 사용자에게 50% 확률로 'list' 또는 'grid' 뷰 방식을 랜덤 지정
+- 사용자는 지정된 뷰 방식만을 볼 수 있으며, 이후 24시간 동안 동일한 방식이 유지
+- 24시간이 지나면 쿠키가 만료되며, 다시 진입 시 새로운 뷰 방식이 랜덤으로 지정
 
-### 해결 전략
+### 해결 방안
 
-- `Next.js Middleware` 기능을 활용하여 요청(Request) 시점에 뷰 방식을 결정함.
-- 사용자의 브라우저 쿠키에 view_type 값을 저장하여, 이미 지정된 사용자는 랜덤 로직을 다시 타지 않도록 방지함.
-- 쿠키의 유효기간을 24시간(maxAge: 60 x 60 x 24)으로 설정하여, 하루 동안 같은 UI가 유지되도록 보장함.
-- 사용자가 쿠키를 지우거나, 24시간이 경과했을 경우 다시 랜덤 로직이 실행되어 새로운 UI가 지정됨.
+- `Next.js Middleware` 기능을 활용하여 요청(Request) 시점에 뷰 방식을 결정
+- 사용자의 브라우저 쿠키에 view_type 값을 저장하여, 이미 지정된 사용자는 랜덤 로직을 다시 타지 않도록 방지
+- 쿠키의 유효기간을 24시간(maxAge: 60 x 60 x 24)으로 설정하여, 하루 동안 같은 UI가 유지되도록 보장
+- 사용자가 쿠키를 지우거나, 24시간이 경과했을 경우 다시 랜덤 로직이 실행되어 새로운 UI가 지정
 
 참고 문서
 
@@ -129,6 +129,8 @@ https://localhost:3000/products
 | `discountPercentage` | ❌        | 100이내로 입력                      |
 | `brand`              | ✅        | Apple, Samsung, Weebur 중 하나 선택 |
 
+### 유효성 검사 Form 화면
+
 ![유효성검사_필수](readme_picture/유효성검사_필수.png)
 
 2. 실시간으로 최종가격(할인 적용가) 표시
@@ -142,6 +144,7 @@ https://localhost:3000/products
    ![상품추가_입력](readme_picture/상품추가_입력.png)
 
 ### 네트워크
+
 ![addProduct](readme_picture/addProduct.png)  
 ![Response](readme_picture/Response.png)
 
@@ -160,7 +163,7 @@ type이 number인 경우
 
 2. 컴포넌트 재사용성
 
-- Input, TextArea, Select 등을 범용 컴포넌트로 분리하여 Form 재사용성을 확보
+- Input, TextArea, Select 등을 범용 컴포넌트로 분리하여 다른 곳에서 React Hook Form 재사용성 확보
 
 참고문서
 
@@ -187,9 +190,17 @@ type이 number인 경우
 # 전체 테스트
 pnpm test
 
-# API 유닛 테스트
+# API 테스트
 pnpm test api.test.ts
 
 # Form 유효성 테스트
 pnpm test productForm.test.tsx
 ```
+
+### API 테스트
+
+![api_test](readme_picture/api_test.png)
+
+### Form 유효성 테스트
+
+![productForm_test](readme_picture/productForm_test.png)
