@@ -36,7 +36,7 @@ describe('ProductForm 유효성 검사', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/상품명은 필수 항목입니다./)).toBeInTheDocument();
-      expect(screen.getByText(/숫자를 입력해 주세요./)).toBeInTheDocument();
+      expect(screen.getByText(/가격은 필수 항목입니다./)).toBeInTheDocument();
       expect(screen.getByText(/브랜드 선택은 필수입니다./)).toBeInTheDocument();
     });
   });
