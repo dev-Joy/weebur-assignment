@@ -109,6 +109,7 @@ https://localhost:3000/products
 
 - [A/B 테스트 with Next.js & Vercel](https://vercel.com/blog/ab-testing-with-nextjs-and-vercel)
 - [NextJS Middleware using cookies](https://nextjs.org/docs/app/building-your-application/routing/middleware#using-cookies)
+- [Next.js의 Middleware를 사용하여 A/B Testing하기 (with GA4)](https://seoplee.tistory.com/75)
 
 ## 상품 생성 페이지 (`/products/new`)
 
@@ -128,6 +129,8 @@ https://localhost:3000/products
 | `discountPercentage` | ❌        | 100이내로 입력                      |
 | `brand`              | ✅        | Apple, Samsung, Weebur 중 하나 선택 |
 
+![유효성검사_필수](readme_picture/유효성검사_필수.png)
+
 2. 실시간으로 최종가격(할인 적용가) 표시
 
 - [useWatch](https://www.react-hook-form.com/api/usewatch/) 및 useMemo로 실시간 반영  
@@ -136,15 +139,37 @@ https://localhost:3000/products
   handleInputChange(onChange)에서 submit할 데이터의 포맷을, useWatch를 사용해 input value를 변환
 
 3. 값이 잘 넘어가는지 확인
-   ![Response](/readme_picture/Response.png)
+   ![상품추가_입력](readme_picture/상품추가_입력.png)
+
+   **네트워크**
+   ![addProduct](readme_picture/addProduct.png)
+   ![Response](readme_picture/Response.png)
 
 ## 개발 중 고려 사항 및 이슈
 
-- zod v4 안정화되면 [zod/v4 Simplified error customization](https://zod.dev/v4#simplified-error-customization) 참고해서 ProductSchema를 수정해야 함
+1. `app/components/forms/Input.tsx`
+
+type이 number인 경우
+
+**숫자 입력 UX 개선**
+
+- 숫자 입력값은 쉼표 포맷(#,#00)으로 보여주되, 전송 시에는 숫자 변환 처리
+
+- Reack Hook Form의 [Controller](https://www.react-hook-form.com/api/usecontroller/controller/), [setValue](https://www.react-hook-form.com/api/useform/setvalue/)를 활용한 제어 컴포넌트 구현
+- 최대값 이상 입력 방지, 숫자 외 입력 차단 등 UX 고려
+
+2. 컴포넌트 재사용성
+
+- Input, TextArea, Select 등을 범용 컴포넌트로 분리하여 Form 재사용성을 확보
+
+참고문서
+
+- [zod preprocess Type Error](https://github.com/colinhacks/zod/issues/3537#issuecomment-2829790481)
 
 ## 기타
 
 - Form 디자인은 styled components를 사용하였습니다.
+- zod v4 안정화되면 [zod/v4 Simplified error customization](https://zod.dev/
 
 참고문서
 
@@ -152,14 +177,19 @@ https://localhost:3000/products
 
 ## 테스트 코드
 
-- 사용 도구: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- 목적: API 응답, Form 유효성 검증 등 주요 비즈니스 로직에 대한 단위 테스트
-- 주요 테스트 파일:
+- 테스트 도구: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- 테스트 목적: API 응답, Form 유효성 검증 등 주요 비즈니스 로직에 대한 단위 테스트
+- 테스트 파일:
   - `api.test.ts` : API 레이어의 정상 동작 확인
   - `productForm.test.tsx` : 폼 필드 유효성 체크 테스트
 
 ```bash
-pnpm test                # 전체 테스트
-pnpm test api.test.ts    # API 유닛 테스트
-pnpm test productForm.test.tsx # Form 유효성 테스트
+# 전체 테스트
+pnpm test
+
+# API 유닛 테스트
+pnpm test api.test.ts
+
+# Form 유효성 테스트
+pnpm test productForm.test.tsx
 ```
