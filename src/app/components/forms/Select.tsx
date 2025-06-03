@@ -31,6 +31,7 @@ export default function Select({
       <FormSelect
         {...register}
         id={register.name}
+        $hasError={!!error}
       >
         <option value=''>선택하세요</option>
         {options.map((opt) => (

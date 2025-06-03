@@ -80,10 +80,12 @@ export const FormTextArea = styled.textarea`
   }
 `;
 
-export const FormSelect = styled.select`
+export const FormSelect = styled.select<{ $hasError?: boolean }>`
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+  border-color: ${({ $hasError }) => ($hasError ? '#e00' : '')};
+
   &:focus {
     border-color: #0070f3;
     box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
