@@ -4,7 +4,34 @@
 
 **구현기간**: 2025.05.28 ~ 2025.06.03
 
-## 개발 설계 방향
+## 개발 계획 및 설계 과정
+
+### 1. 프로젝트 구조 설계
+
+- App Router 기반으로 페이지, 컴포넌트, 유틸을 명확히 분리하여 유지보수성과 확장성을 고려하였습니다.
+- 기능별 디렉토리 구성 방식을 채택하여 `/products`, `/products/new` 각각 독립적으로 관리될 수 있도록 구성했습니다.
+- `lib`, `types`, `schemas`, `ui` 등은 공통 모듈로 관리하여 코드 중복을 줄였습니다.
+
+### 2. 뷰 랜덤 처리 및 상태 유지 설계
+
+- 사용자 경험을 위해 **최초 접속 시 Middleware에서 쿠키 기반 뷰 타입 지정** 로직을 우선 구현하였습니다.
+- 뷰 타입은 랜덤하게 정해지며, 쿠키의 만료 기간을 24시간으로 설정하여 조건 충족 시 변경 가능하도록 했습니다.
+
+### 3. 상품 리스트 페이지 구현
+
+- API 연동 → 데이터 파싱 → 카드/리스트 UI 분리 → 뷰 타입별 렌더링 로직 적용 순으로 구현했습니다.
+- 리뷰 수 필드는 dummy API에서 reviews 배열의 length를 이용했습니다.
+
+### 4. 상품 생성 페이지 구현
+
+- Form 상태 관리를 위해 `React Hook Form + Zod` 조합을 먼저 구성하고, 재사용 가능한 `Input`, `Select`, `TextArea` 컴포넌트를 개발했습니다.
+- 할인율이 입력되면 `useWatch` 을 사용하여 실시간으로 최종 가격을 계산해 표시했습니다.
+
+### 5. 테스트 및 QA
+
+- 주요 API와 Form 유효성 로직에 대해 Vitest + RTL을 활용한 단위 테스트를 작성하여 안정성을 확보했습니다.
+
+### 개발 설계 방향
 
 | 항목                                  | 선택 이유                                                   |
 | ------------------------------------- | ----------------------------------------------------------- |
@@ -150,9 +177,7 @@ https://localhost:3000/products
 
 ## 개발 중 고려 사항 및 이슈
 
-1. `app/components/forms/Input.tsx`
-
-type이 number인 경우
+### 1. `app/components/forms/Input.tsx`
 
 **숫자 입력 UX 개선**
 
@@ -161,11 +186,11 @@ type이 number인 경우
 - Reack Hook Form의 [Controller](https://www.react-hook-form.com/api/usecontroller/controller/), [setValue](https://www.react-hook-form.com/api/useform/setvalue/)를 활용한 제어 컴포넌트 구현
 - 최대값 이상 입력 방지, 숫자 외 입력 차단 등 UX 고려
 
-2. 컴포넌트 재사용성
+### 2. 컴포넌트 재사용성
 
 - Input, TextArea, Select 등을 범용 컴포넌트로 분리하여 다른 곳에서 React Hook Form 재사용성 확보
 
-참고문서
+**참고문서**
 
 - [zod preprocess Type Error](https://github.com/colinhacks/zod/issues/3537#issuecomment-2829790481)
 
@@ -174,7 +199,7 @@ type이 number인 경우
 - Form 디자인은 styled components를 사용하였습니다.
 - zod v4 안정화되면 [zod/v4 Simplified error customization](https://zod.dev/
 
-참고문서
+**참고문서**
 
 - [How to NextJS Styled Components](https://nextjs.org/docs/app/guides/css-in-js#styled-components)
 
