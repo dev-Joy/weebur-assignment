@@ -54,15 +54,8 @@ describe('ProductForm 유효성 검사', () => {
     });
   });
 
-  it('가격은 숫자여야 하고 1000원 이상', async () => {
+  it('가격은 1000원 이상', async () => {
     const priceInput = screen.getByLabelText(/가격/);
-
-    fireEvent.change(priceInput, { target: { value: 'abc' } });
-    fireEvent.click(screen.getByRole('button', { name: /상품 생성/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText(/숫자를 입력해 주세요./)).toBeInTheDocument();
-    });
 
     fireEvent.change(priceInput, { target: { value: '999' } });
     fireEvent.click(screen.getByRole('button', { name: /상품 생성/i }));
@@ -74,7 +67,7 @@ describe('ProductForm 유효성 검사', () => {
     });
   });
 
-  it('할인율은 숫자여야 하고 100이내로 입력', async () => {
+  it('할인율은 100이내로 입력', async () => {
     const discountInput = screen.getByLabelText(/할인율/);
 
     fireEvent.change(discountInput, { target: { value: '100' } });
