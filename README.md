@@ -160,17 +160,17 @@ https://localhost:3000/products
 
 ![유효성검사_필수](readme_picture/유효성검사_필수.png)
 
-2. 실시간으로 최종가격(할인 적용가) 표시
+### 실시간으로 최종가격(할인 적용가) 표시
 
 - [useWatch](https://www.react-hook-form.com/api/usewatch/) 및 useMemo로 실시간 반영  
-   문제: price와 discountPercentage 입력 시 동적으로 계산된 결과 표시  
-   해결:
-  handleInputChange(onChange)에서 submit할 데이터의 포맷을, useWatch를 사용해 input value를 변환
+   **문제**: price와 discountPercentage 입력 시 동적으로 계산된 결과 표시  
+   **해결**: useWatch를 사용해 input value를 변환
 
-3. 값이 잘 넘어가는지 확인
-   ![상품추가_입력](readme_picture/상품추가_입력.png)
+![상품추가_입력](readme_picture/상품추가_입력.png)
 
 ### 네트워크
+
+`AddProductRequestBody`값이 잘 넘어가는지 확인
 
 ![addProduct](readme_picture/addProduct.png)  
 ![Response](readme_picture/Response.png)
@@ -190,14 +190,14 @@ https://localhost:3000/products
 
 - Input, TextArea, Select 등을 범용 컴포넌트로 분리하여 다른 곳에서 React Hook Form 재사용성 확보
 
-**참고문서**
+### 3. Build시 Type Error
 
 - [zod preprocess Type Error](https://github.com/colinhacks/zod/issues/3537#issuecomment-2829790481)
 
 ## 기타
 
 - Form 디자인은 styled components를 사용하였습니다.
-- zod v4 안정화되면 [zod/v4 Simplified error customization](https://zod.dev/
+- zod v4 안정화되면 [zod/v4 Simplified error customization](https://zod.dev/v4#simplified-error-customization)
 
 **참고문서**
 
