@@ -1,7 +1,12 @@
 'use client';
 
 import React from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import {
+  FieldValues,
+  Path,
+  UseFormRegisterReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 import {
   ErrorText,
   FormGroup,
@@ -11,37 +16,43 @@ import {
   UnitLabel,
   FormTextCount,
   FormRequired,
+  FormFooterRow,
+  ClearButton,
 } from '@/app/ui/form';
+import Clear from '@/app/icon/clear';
 
-interface BaseProps {
-  type: 'text' | 'number';
+interface BaseProps<T extends FieldValues> {
   label: string;
-  register?: UseFormRegisterReturn;
+  type: 'text' | 'number';
   required?: boolean;
+  placeholder?: string;
   error?: string;
+  register?: UseFormRegisterReturn;
+  setValue?: UseFormSetValue<T>;
 }
 
-interface TextInputProps extends BaseProps {
+interface TextInputProps<T extends FieldValues> extends BaseProps<T> {
   type: 'text';
   maxLength?: number;
-  value?: string;
+  value: string;
 }
 
-interface NumberInputProps extends BaseProps {
+interface NumberInputProps<T extends FieldValues> extends BaseProps<T> {
   type: 'number';
-  value: number | undefined;
+  value: string | number | undefined;
   id: string;
   unit?: string;
-  placeholder?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  maxNum?: number;
+  onChange: (value: string | number) => void;
 }
 
-type Props = TextInputProps | NumberInputProps;
+type Props<T extends FieldValues> = TextInputProps<T> | NumberInputProps<T>;
 
-export default function Input(props: Props) {
-  const { label, required, error, register, type } = props;
+export default function Input<T extends FieldValues>(props: Props<T>) {
+  const { label, type, required, placeholder, error, setValue, register } =
+    props;
 
-  const id = register?.name ?? ('id' in props ? props.id : undefined);
+  const id = props?.register?.name ?? ('id' in props ? props.id : undefined);
 
   const allowOnlyNumberKeys = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const isNumberKey = /^[0-9]$/.test(e.key);
@@ -51,44 +62,104 @@ export default function Input(props: Props) {
     }
   };
 
-  const inputElement =
-    type === 'number' ? (
-      <UnitWrapper>
-        <FormInput
-          {...register}
-          id={id}
-          $hasError={!!error}
-          type='text'
-          value={props.value?.toLocaleString() ?? ''}
-          placeholder={props.placeholder}
-          onChange={props.onChange}
-          onKeyDown={allowOnlyNumberKeys}
-        />
-        {props.unit && <UnitLabel>{props.unit}</UnitLabel>}
-      </UnitWrapper>
-    ) : (
+  const handleNumber = (fieldOnChange: (value: number) => void) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      const raw = e.target.value.replace(/,/g, '');
+      let numeric = Number(raw);
+
+      if (isNaN(numeric)) numeric = 0;
+      if (props.type === 'number' && props.maxNum !== undefined) {
+        numeric = Math.min(numeric, props.maxNum);
+      }
+      fieldOnChange(numeric);
+    };
+  };
+
+  const fieldName = (register?.name ?? id) as Path<T> | undefined;
+
+  const handleClear = () => {
+    if (setValue && fieldName) {
+      const defaultValue = '' as T[typeof fieldName];
+
+      setValue(fieldName, defaultValue, {
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+    }
+
+    if (props.type === 'number') {
+      props.onChange('');
+    }
+  };
+
+  const renderNumberInput = () => {
+    if (props.type !== 'number') return null;
+    const { value, onChange, unit } = props;
+    return (
+      <>
+        <UnitWrapper>
+          <FormInput
+            {...register}
+            id={id}
+            $hasError={!!error}
+            type='text'
+            value={value?.toLocaleString() ?? ''}
+            placeholder={placeholder}
+            onChange={handleNumber(onChange)}
+            onKeyDown={allowOnlyNumberKeys}
+          />
+          {value !== undefined && value !== null && value !== '' && (
+            <ClearButton
+              onClick={handleClear}
+              $IsNumber={true}
+            >
+              <Clear />
+            </ClearButton>
+          )}
+
+          {unit && <UnitLabel>{unit}</UnitLabel>}
+        </UnitWrapper>
+        {error && <ErrorText>{error}</ErrorText>}
+      </>
+    );
+  };
+
+  const renderTextInput = () => {
+    if (props.type !== 'text') return null;
+    const { value, placeholder, maxLength } = props;
+    return (
       <>
         <FormInput
           {...register}
           id={id}
           $hasError={!!error}
-          maxLength={props.maxLength}
+          placeholder={placeholder}
+          maxLength={maxLength}
         />
-        {props.maxLength && (
-          <FormTextCount>
-            {props.value?.length ?? 0}/{props.maxLength}
-          </FormTextCount>
+        {value && (
+          <ClearButton onClick={handleClear}>
+            <Clear />
+          </ClearButton>
         )}
+
+        <FormFooterRow $hasError={!!error}>
+          {error && <ErrorText>{error}</ErrorText>}
+          {maxLength && (
+            <FormTextCount>
+              {value?.length ?? 0}/{maxLength}
+            </FormTextCount>
+          )}
+        </FormFooterRow>
       </>
     );
+  };
 
   return (
     <FormGroup>
       <FormLabel htmlFor={id}>
         {label} {required && <FormRequired>[필수]</FormRequired>}
       </FormLabel>
-      {inputElement}
-      {error && <ErrorText>{error}</ErrorText>}
+      {type === 'number' ? renderNumberInput() : renderTextInput()}
     </FormGroup>
   );
 }

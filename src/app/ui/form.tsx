@@ -39,8 +39,18 @@ export const FormRequired = styled.span`
   color: rgb(65, 117, 245);
 `;
 
+export const FormInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px solid #e5e8eb;
+  border-radius: 6px;
+  padding: 10px 12px;
+  background-color: #f9fafb;
+`;
+
 export const FormInput = styled.input<{ $hasError?: boolean }>`
   padding: 0.5rem;
+  padding-right: 3.2rem;
   border: 1px solid ${({ $hasError }) => ($hasError ? '#e00' : '#ccc')};
   border-radius: 6px;
 
@@ -82,24 +92,8 @@ export const FormSelect = styled.select`
 `;
 
 export const FormTextCount = styled.span`
-  position: absolute;
   color: #71717a;
   font-size: 0.875rem;
-  bottom: -1.2rem;
-  right: 0;
-`;
-
-export const UnitWrapper = styled.div`
-  position: relative;
-`;
-
-export const UnitLabel = styled.span`
-  position: absolute;
-  top: 50%;
-  right: 1.2rem;
-  transform: translateY(-50%);
-  color: #aaa;
-  font-size: 0.9rem;
 `;
 
 export const ErrorText = styled.span`
@@ -107,7 +101,42 @@ export const ErrorText = styled.span`
   font-size: 0.85rem;
 `;
 
+export const FormFooterRow = styled.div<{ $hasError?: boolean }>`
+  display: flex;
+  justify-content: ${({ $hasError }) =>
+    $hasError ? 'space-between' : 'flex-end'};
+  align-items: center;
+`;
+
+export const UnitWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const UnitLabel = styled.span`
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 0.9rem;
+`;
+
+export const ClearButton = styled.button<{ $IsNumber?: boolean }>`
+  position: absolute;
+  top: 52%;
+  right: ${({ $IsNumber }) => ($IsNumber ? '1.8rem' : '0.5rem')};
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+`;
+
 export const PriceInfo = styled.div`
+  max-width: 250px;
   font-weight: 600;
   color: #0050cc;
+  word-break: break-word;
+  white-space: normal;
 `;

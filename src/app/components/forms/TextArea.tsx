@@ -10,15 +10,17 @@ import {
 interface Props {
   label: string;
   value?: string;
+  placeholder?: string;
   maxLength?: number;
   register: UseFormRegisterReturn;
 }
 
 export default function TextAreaInput({
   label,
-  register,
   value,
+  placeholder,
   maxLength,
+  register,
 }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
 
@@ -40,6 +42,7 @@ export default function TextAreaInput({
           ref.current = e;
         }}
         rows={4}
+        placeholder={placeholder}
       />
       {maxLength && (
         <FormTextCount>

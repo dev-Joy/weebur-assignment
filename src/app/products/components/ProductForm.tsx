@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -20,6 +20,7 @@ export default function ProductForm() {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm<ProductType>({
     resolver: zodResolver(productSchema),
@@ -30,15 +31,6 @@ export default function ProductForm() {
   const price = useWatch({ control, name: 'price' });
   const discountPercentage = useWatch({ control, name: 'discountPercentage' });
   const description = useWatch({ control, name: 'description' });
-
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  useEffect(() => {
-    const el = descriptionRef.current;
-    if (el) {
-      el.style.height = 'auto';
-      el.style.height = `${el.scrollHeight}px`;
-    }
-  }, [description]);
 
   const finalPrice = useMemo(() => {
     if (typeof price !== 'number' || price <= 0) return 0;
@@ -59,28 +51,6 @@ export default function ProductForm() {
     }
   };
 
-  const handlePriceChange = (fieldOnChange: (value: number) => void) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
-      const raw = e.target.value.replace(/,/g, '');
-      const numeric = Number(raw);
-      if (!isNaN(numeric)) {
-        fieldOnChange(numeric);
-      }
-    };
-  };
-
-  const handleDiscountChange = (fieldOnChange: (value: number) => void) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
-      const raw = e.target.value.replace(/[^0-9]/g, '');
-      let numeric = Number(raw);
-      if (isNaN(numeric)) {
-        numeric = 0;
-      }
-      numeric = Math.min(numeric, 99);
-      fieldOnChange(numeric);
-    };
-  };
-
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
@@ -90,11 +60,13 @@ export default function ProductForm() {
         maxLength={15}
         value={title}
         register={register('title')}
+        setValue={setValue}
         error={errors.title?.message}
       />
 
       <TextArea
         label='설명'
+        placeholder='상품에 대한 설명입니다.'
         value={description}
         register={register('description')}
       />
@@ -112,7 +84,8 @@ export default function ProductForm() {
               placeholder='1,000'
               unit='₩'
               value={field.value}
-              onChange={handlePriceChange(field.onChange)}
+              onChange={field.onChange}
+              setValue={setValue}
               error={errors.price?.message}
             />
           )}
@@ -129,7 +102,8 @@ export default function ProductForm() {
               placeholder='0'
               unit='%'
               value={field.value}
-              onChange={handleDiscountChange(field.onChange)}
+              onChange={field.onChange}
+              maxNum={99}
             />
           )}
         />

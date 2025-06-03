@@ -22,7 +22,9 @@ const StyledButton = styled.button<{
   transition: background-color 0.3s ease;
 
   background-color: ${({ variant }) =>
-    variant === 'primary' ? 'var(--color-primary)' : 'var(--color-secondary)'};
+    variant === 'primary'
+      ? 'var(--button-bg-primary)'
+      : 'var(--button-bg-secondary)'};
   color: ${({ variant }) =>
     variant === 'primary'
       ? 'var(--button-text-primary)'
