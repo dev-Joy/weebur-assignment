@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import {
+  FormFooterRow,
   FormGroup,
   FormLabel,
   FormTextArea,
@@ -12,6 +13,7 @@ interface Props {
   value?: string;
   placeholder?: string;
   maxLength?: number;
+  error?: string;
   register: UseFormRegisterReturn;
 }
 
@@ -20,6 +22,7 @@ export default function TextAreaInput({
   value,
   placeholder,
   maxLength,
+  error,
   register,
 }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -44,11 +47,14 @@ export default function TextAreaInput({
         rows={4}
         placeholder={placeholder}
       />
-      {maxLength && (
-        <FormTextCount>
-          {value?.length ?? 0}/{maxLength}
-        </FormTextCount>
-      )}
+      <FormFooterRow $hasError={!!error}>
+        {error && <ErrorText>{error}</ErrorText>}
+        {maxLength && (
+          <FormTextCount>
+            {value?.length ?? 0}/{maxLength}
+          </FormTextCount>
+        )}
+      </FormFooterRow>
     </FormGroup>
   );
 }
