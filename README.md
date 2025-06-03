@@ -132,7 +132,7 @@ https://localhost:3000/products
 - 쿠키의 유효기간을 24시간(maxAge: 60 x 60 x 24)으로 설정하여, 하루 동안 같은 UI가 유지되도록 보장
 - 사용자가 쿠키를 지우거나, 24시간이 경과했을 경우 다시 랜덤 로직이 실행되어 새로운 UI가 지정
 
-참고 문서
+**참고문서**
 
 - [A/B 테스트 with Next.js & Vercel](https://vercel.com/blog/ab-testing-with-nextjs-and-vercel)
 - [NextJS Middleware using cookies](https://nextjs.org/docs/app/building-your-application/routing/middleware#using-cookies)
